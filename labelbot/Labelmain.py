@@ -2,59 +2,28 @@ import telebot
 from telebot.types import InlineKeyboardMarkup ,KeyboardButton ,ReplyKeyboardMarkup , InlineKeyboardButton
 import lilbaby 
 import fixedV2
+import Database
 from PIL import Image, ImageFont, ImageDraw
 bot=telebot.TeleBot("6972519738:AAG6zuY4X5fLJ4yYVpiNieWW_-45wgdT9qI",parse_mode=None)
 Label_class=lilbaby
 Invoice_class=fixedV2
 import mysql.connector
 import logging
-import requests
 
-
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-def connect_to_mysql():
-    try:
-        # Replace 'username', 'password', 'host', 'database_name' with your MySQL credentials
-        connection = mysql.connector.connect(
-                user="arkoboti_Admin",
-                password="Amirminsk2013.",
-                host="81.171.18.78",
-                database="arkoboti_Members"
-        )
-        logger.info("Connected to MySQL successfully.")
-        return connection
-    except mysql.connector.Error as err:
-        logger.error(f"Failed to connect to MySQL: {err}")
-        return None
+itemQuant=-1
+order=0
 
 def main():
-    connection = connect_to_mysql()
-    if connection:
-        try:
-            cursor = connection.cursor()
-            cursor.execute("SELECT * FROM your_table")
-            rows = cursor.fetchall()
-            for row in rows:
-                print(row)
-            cursor.close()
-            connection.close()
-        except mysql.connector.Error as err:
-            logger.error(f"Error executing SQL query: {err}")
-    else:
-        logger.error("Connection to MySQL failed. Check your credentials.")
+    resetdata()
 
-if __name__ == "__main__":
-    main()
+
+
 LabelInfo={
     "name" :"",
     "address" : "",
     "phone" :"",
     "Zip" : "",
 }
-
 InvoiceInfo={
 
 
@@ -83,14 +52,56 @@ InvoiceInfo={
     'qty3': 0,
     'qty4': 0,
 }
-itemQuant=-1
-order=0
+def resetdata():
+      global order
+      global itemQuant
+      global InvoiceInfo
+      global LabelInfo
+      order=0
+      itemQuant=-1
+      InvoiceInfo={
+
+
+    'name':'هاشم اصل کنگانی',
+    'address': 'نیلوفر 3 باغ زهراتهران شهرک غرب',
+    'phone': "1597534862",
+    'post_code':'090193',
+    'seller_name':"امیرو اعظم",
+    "seller_address":"بوشهر خیابان باهن4",
+    "seller_number": "09017730054",
+    "invoice_num" : "123456",
+    "product_name1":"",
+    "product_name2":"",
+    "product_name3":"",
+    "product_name4":"",
+    "product_discount1":0,
+    "product_discount2":0,
+    "product_discount3":0,
+    "product_discount4":0,
+    'product_price1':0,
+    'product_price2':0,
+    'product_price3':0,
+    'product_price4':0,
+    'qty1': 0,
+    'qty2': 0,
+    'qty3': 0,
+    'qty4': 0,
+}
+      LabelInfo={
+    "name" :"",
+    "address" : "",
+    "phone" :"",
+    "Zip" : "",
+        }
+
 def LabelMaker(message):
+        
         LabelInfo.update({"address":message.text})
         img=  Label_class.create_label(LabelInfo)
         img.save("texttest.Png")
         bot.send_photo(message.chat.id,open("texttest.Png","rb"))
         print(LabelInfo)
+        resetdata()
 
 
 def AskName(message):
@@ -127,8 +138,6 @@ def SetQuant(message):
         global itemQuant
         if(itemQuant==-1):
             itemQuant=int(message.text)
-            print("order is 0 from now!")
-            order=0
         order+=1
         print("itemquant"+str(itemQuant))
         print("order:"+str(order))
@@ -175,6 +184,7 @@ def PrintFunc(message):
         bot.send_photo(message.chat.id,open("InvoiceTest.Png","rb"))
         Image._show(img)
         print(InvoiceInfo)
+        resetdata()
 
 def ChooseMarkup():
     markup=InlineKeyboardMarkup()
@@ -187,8 +197,11 @@ def ChooseMarkup():
 
 
 @bot.message_handler(commands=["start"])
-def Startcommand(User):
-    bot.send_message(User.chat.id,"خذمات مورد نظر خود را انتخاب کنید",reply_markup=ChooseMarkup())
+def Startcommand(message):
+    resetdata()
+    User_Credits=Database.GetCredits(message.from_user.username)
+    bot.send_message(message.chat.id,"خدمات مورد نظر خود را انتخاب کنید \n\n شارژ باقی مانده = {0} ".format(User_Credits),reply_markup=ChooseMarkup())
+
     
 
 @bot.callback_query_handler(func=lambda pol:True)
@@ -202,3 +215,5 @@ def callbackquery(pol):
 
 
 bot.infinity_polling()
+if __name__=="__main__":
+      main()

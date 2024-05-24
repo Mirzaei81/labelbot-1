@@ -1,0 +1,8 @@
+pyTelegramBotAPI
+Pillow
+mysql-connector-python
+persiantools
+python-bidi
+arabic-reshaper
+Flask
+Flask-RESTful

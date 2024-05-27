@@ -101,6 +101,7 @@ def LabelMaker(message):
         img.save("texttest.Png")
         bot.send_photo(message.chat.id,open("texttest.Png","rb"))
         print(LabelInfo)
+        print(Database.LoseCredits(message.from_user.username))
         resetdata()
 
 
@@ -201,6 +202,7 @@ def Startcommand(message):
     resetdata()
     User_Credits=Database.GetCredits(message.from_user.username)
     bot.send_message(message.chat.id,"خدمات مورد نظر خود را انتخاب کنید \n\n شارژ باقی مانده = {0} ".format(User_Credits),reply_markup=ChooseMarkup())
+
 
     
 

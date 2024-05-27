@@ -30,5 +30,11 @@ def GetCredits(username):
     print(result)
     return result
 
+def LoseCredits(username):
+    try:
+        executer.execute('UPDATE users SET credits = credits-1 WHERE UserName = "{}"'.format(username))
+        return "lost credits!"
+    except:
+        return "cant lose credits"
 if __name__=="__main__":
     main()

@@ -9,8 +9,10 @@ def shamsi_date():
     return date
 #make a function for farsi language
 def convert(text):
+
     reshaped_text = arabic_reshaper.reshape(text)
     converted = get_display(reshaped_text)
+    print("it works??")
     return converted
 
 

@@ -2,7 +2,6 @@ FROM python
 
 WORKDIR /app
 
-COPY IranianSansBold.ttf arial.ttf /app/fonts/ 
 
 COPY requirements.txt ./
 

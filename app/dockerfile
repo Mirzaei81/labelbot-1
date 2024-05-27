@@ -1,17 +1,8 @@
 FROM python
 
-
-RUN apt-get update && apt-get install -y locales
-RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-
-
-
-
 WORKDIR /app
 
-
+COPY IranianSansBold.ttf arial.ttf /app/fonts/ 
 
 COPY requirements.txt ./
 
@@ -20,4 +11,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD [ "python","-u","Labelmain.py"]
+CMD [ "python","-u","Labelmain.py"] 

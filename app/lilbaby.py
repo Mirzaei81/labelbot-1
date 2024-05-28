@@ -20,14 +20,14 @@ def create_label(data):
     draw = ImageDraw.Draw(img)
     # Load a font (you can specify your own font file)
     font = ImageFont.truetype("IranianSansBold.ttf", 24)
-    draw.text((1300, 80), f"{convert(seller_data['seller_name'])}{convert('نام:')}", fill='black',anchor="rm" , font=font)
-    draw.text((1300, 115), f"{convert(seller_data['seller_address'])}{convert('آدرس:')}", fill='black',anchor="rm", font=font)
-    draw.text((1300, 155), f"{seller_data['seller_postcode']}{convert('کدپستی:')}", fill='black',anchor="rm", font=font)
-    draw.text((1300, 190), f"{seller_data['seller_number']}{convert('شماره تلفن:')}", fill='black',anchor="rm", font=font)
-    draw.text((1300, 255), f"{convert(data['name'])}{convert('نام:')}", fill='black',anchor="rm" , font=font)
-    draw.text((1300, 290), f"{convert(data['address'])}{convert('آدرس:')}", fill='black',anchor="rm", font=font)
-    draw.text((1300, 330), f"{data['Zip']}{convert('کدپستی:')}", fill='black',anchor="rm", font=font)
-    draw.text((1300, 370), f"{data['phone']}{convert('شماره تلفن:')}", fill='black',anchor="rm", font=font)
+    draw.text((1300, 80), f"{(seller_data['seller_name'])}{('نام:')}", fill='black',anchor="rm" , font=font)
+    draw.text((1300, 115), f"{(seller_data['seller_address'])}{('آدرس:')}", fill='black',anchor="rm", font=font)
+    draw.text((1300, 155), f"{seller_data['seller_postcode']}{('کدپستی:')}", fill='black',anchor="rm", font=font)
+    draw.text((1300, 190), f"{seller_data['seller_number']}{('شماره تلفن:')}", fill='black',anchor="rm", font=font)
+    draw.text((1300, 255), f"{(data['name'])}{('نام:')}", fill='black',anchor="rm" , font=font)
+    draw.text((1300, 290), f"{(data['address'])}{('آدرس:')}", fill='black',anchor="rm", font=font)
+    draw.text((1300, 330), f"{data['Zip']}{('کدپستی:')}", fill='black',anchor="rm", font=font)
+    draw.text((1300, 370), f"{data['phone']}{('شماره تلفن:')}", fill='black',anchor="rm", font=font)
 
     return img
 

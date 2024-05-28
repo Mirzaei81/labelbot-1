@@ -186,11 +186,12 @@ def PrintFunc(message):
         Image._show(img)
         print(InvoiceInfo)
         resetdata()
-
+def AskInfo(message):
+      bot.send_message(message.chat.id,"لطفا ")
 def ChooseMarkup():
     markup=InlineKeyboardMarkup()
     markup.row_width=2
-    markup.add(InlineKeyboardButton("لیبل پستی",callback_data="Label"),InlineKeyboardButton("فاکتور فروش",callback_data="Invoice"))
+    markup.add(InlineKeyboardButton("لیبل پستی",callback_data="Label"),InlineKeyboardButton("فاکتور فروش",callback_data="Invoice"),InlineKeyboardButton("شارژ اشتراک",callback_data="Charge"),InlineKeyboardButton("تغییر اطلاعات",callback_data="Info"))
     return markup
 
 
@@ -209,10 +210,13 @@ def Startcommand(message):
 @bot.callback_query_handler(func=lambda pol:True)
 def callbackquery(pol):
     if(pol.data =="Label"):
-
         AskName(pol.message)
-    else:
+    if(pol.data=="Invoice"):
         AskItem(pol.message)
+    if(pol.data=="Charge"):
+        print("Charge")
+    if(pol.data=="Info"):
+        AskInfo(pol.message)
         
 
 

@@ -7,9 +7,9 @@ try:
     connection = mysql.connector.connect(
             user="root",
             password="TGIydaGzqj8nkXiR40rkLRtH0HSlkGPL",
-            host="a6aeb8a2-34b1-4713-b85c-7375e8c5aff2.hsvc.ir",
+            host="arkobot-members.arkobot.svc",
             database="mainDB",
-            port=30248
+            port=3306
     )
     print("Connected to MySQL successfully.")
     print(connection)

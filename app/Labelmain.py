@@ -201,8 +201,7 @@ def ChooseMarkup():
 @bot.message_handler(commands=["start"])
 def Startcommand(message):
     resetdata()
-    executer=Database.ConnectSql()
-    User_Credits=Database.GetCredits(message.from_user.username,executer)
+    User_Credits=Database.GetCredits(message.from_user.username)
     bot.send_message(message.chat.id,"خدمات مورد نظر خود را انتخاب کنید \n\n شارژ باقی مانده = {0} ".format(User_Credits),reply_markup=ChooseMarkup())
 
 

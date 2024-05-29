@@ -101,7 +101,7 @@ def LabelMaker(message):
         img.save("texttest.Png")
         bot.send_photo(message.chat.id,open("texttest.Png","rb"))
         print(LabelInfo)
-        print(Database.LoseCredits(message.from_user.username))
+        Database.LoseCredits(message.from_user.username)
         resetdata()
 
 

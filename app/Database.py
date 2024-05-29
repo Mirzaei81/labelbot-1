@@ -54,10 +54,11 @@ def LoseCredits(username):
         print("Connected to MySQL successfully.")
         print(connection)
         executer=connection.cursor()
+        executer.execute('UPDATE users SET credits = credits-1 WHERE UserName = "{}"'.format(username))
     except mysql.connector.Error as err:
         logger.error(f"Failed to connect to MySQL: {err}")
 
-    executer.execute('UPDATE users SET credits = credits-1 WHERE UserName = "{}"'.format(username))
+
         
 if __name__=="__main__":
     main()

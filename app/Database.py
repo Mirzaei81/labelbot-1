@@ -23,15 +23,14 @@ def main():
     ...
 
 
-def GetCredits(username):
-    executer=ConnectSql()
+def GetCredits(username,executer):
     executer.execute('Select Credits FROM users WHERE UserName = "{}"'.format(username))
     result=executer.fetchone()
     result=result[0]
     print(result)
     return result
 
-def LoseCredits(username):
+def LoseCredits(username,executer):
     executer=ConnectSql()
     try:
         executer.execute('UPDATE users SET credits = credits-1 WHERE UserName = "{}"'.format(username))

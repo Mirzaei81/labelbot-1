@@ -170,8 +170,8 @@ def create_Invoice(data):
 def main():
     
   calc_disc()
-  label_image = create_Invoice()
-  label_image.show("invoice3.png")
+  #label_image = create_Invoice()
+  #label_image.show("invoice3.png")
 
  
 if __name__=="__main__":

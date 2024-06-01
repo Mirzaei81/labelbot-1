@@ -185,9 +185,31 @@ def PrintFunc(message):
         bot.send_photo(message.chat.id,open("InvoiceTest.Png","rb"))
         Image._show(img)
         print(InvoiceInfo)
+        Database.LoseCredits(message.from_user.username)
         resetdata()
 def AskInfo(message):
-      bot.send_message(message.chat.id,"لطفا ")
+    bot.send_message(message.chat.id,"لطفا متن زیر را کپی کنید و اطلاعات خودرا جایگذاری کنید")
+    bot.send_message(message.chat.id,"نام و نام خانوادگی :\nآدرس فروشگاه :\nشماره تماس :")
+    bot.register_next_step_handler(message,lambda m:SetInfo(m))
+
+def SetInfo(message):
+    x=  message.text.splitlines()
+    y=[]
+    info=[]
+    for i in x:
+        for z in (i.split(":")):
+              y.append(z)
+
+    for i in range(1,6,2):
+          print(i)
+          info.append(y[i].strip())
+
+    print(info)
+    x=Database.UpdateShopInfo(message.from_user.username,info)
+    if(x):
+        bot.send_message(message.chat.id,"اطلاعات با موفقیت آپدیت شد!")
+
+
 def ChooseMarkup():
     markup=InlineKeyboardMarkup()
     markup.row_width=2
@@ -195,14 +217,26 @@ def ChooseMarkup():
     return markup
 
 
+def CreateNewUser(UserName,message):
+      bot.send_message(message.chat.id,"سلام عزیز به ربات خوش اومدی\n بنظر میاد که بار اولته که با ربات ما کار میکنی \n برای شروع کار بهت 10 تا شارژ برای کار با ربات تعلق میگیره!")
+      x=Database.CreateUser(UserName)
+      if(x==True):
+            Startcommand(message)
 
 
 
 @bot.message_handler(commands=["start"])
 def Startcommand(message):
     resetdata()
-    User_Credits=Database.GetCredits(message.from_user.username)
-    bot.send_message(message.chat.id,"خدمات مورد نظر خود را انتخاب کنید \n\n شارژ باقی مانده = {0} ".format(User_Credits),reply_markup=ChooseMarkup())
+
+    usercheck=Database.CheckUser(message.from_user.username)
+    print(usercheck)
+    if(usercheck==False):    
+        CreateNewUser(message.from_user.username,message)
+
+    else:
+        User_Credits=Database.GetCredits(message.from_user.username)
+        bot.send_message(message.chat.id,"خدمات مورد نظر خود را انتخاب کنید \n\n شارژ باقی مانده = {0} ".format(User_Credits),reply_markup=ChooseMarkup())
 
 
     

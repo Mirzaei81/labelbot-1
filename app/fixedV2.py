@@ -27,6 +27,7 @@ sample_data = {
     'seller_name':"امیرو اعظم",
     "seller_address":"بوشهر خیابان باهن4",
     "seller_number": "09017730054",
+    "seller_zip":"",
     "date" : shamsi_date(),
     "invoice_num" : "123456",
     "product_name1":"لپتاپ اپل شرکتی اصل",
@@ -128,20 +129,20 @@ def create_Invoice(data):
     font = ImageFont.truetype("IranianSansBold.ttf", 45)
     font2 = ImageFont.truetype("arial.ttf", 47)
     
-    
+    #for local testing add convert method behind the datas that represent a string name
     # Draw text on the label
-    draw.text((2080,355), f"{(data['name'])}", fill='black',anchor="rm" , font=font)
-    draw.text((2140,420), f"{(data['address'])}", fill='black',anchor="rm", font=font)
+    draw.text((2080,355), f"{convert(data['name'])}", fill='black',anchor="rm" , font=font)
+    draw.text((2140,420), f"{convert(data['address'])}", fill='black',anchor="rm", font=ImageFont.truetype("IranianSansBold.ttf", 30))
     draw.text((2020,485), f"{data['phone']}", fill='black',anchor="rm", font=font)
-    draw.text((920,1500), f"{(data['seller_name'])}", fill='black',anchor="rm" , font=font)
-    draw.text((920,1555), f"{(data['seller_address'])}", fill='black',anchor="rm", font=font)
+    draw.text((920,1500), f"{convert(data['seller_name'])}", fill='black',anchor="rm" , font=font)
+    draw.text((920,1555), f"{convert(data['seller_address'])}", fill='black',anchor="rm", font=font)
     draw.text((920,1622), f"{data['seller_number']}", fill='black',anchor="rm", font=font)
     draw.text((2150,110), f"{data['date']}", fill='black',anchor="rm", font=font)
     draw.text((2000,170), f"{data['invoice_num']}", fill='black',anchor="rm", font=font)
-    draw.text((700,800), f"{(data['product_name1'])}", fill='black',anchor="mm", font=font2)
-    draw.text((700,900), f"{(data['product_name2'])}", fill='black',anchor="mm", font=font2)
-    draw.text((700,1000), f"{(data['product_name3'])}", fill='black',anchor="mm", font=font2)
-    draw.text((700,1080), f"{(data['product_name4'])}", fill='black',anchor="mm", font=font2)
+    draw.text((700,800), f"{convert(data['product_name1'])}", fill='black',anchor="mm", font=font2)
+    draw.text((700,900), f"{convert(data['product_name2'])}", fill='black',anchor="mm", font=font2)
+    draw.text((700,1000), f"{convert(data['product_name3'])}", fill='black',anchor="mm", font=font2)
+    draw.text((700,1080), f"{convert(data['product_name4'])}", fill='black',anchor="mm", font=font2)
     draw.text((1850,805), f"{data['product_discount1']}{('%')}", fill='black',anchor="mm", font=font2)
     draw.text((1850,900), f"{data['product_discount2']}{('%')}", fill='black',anchor="mm", font=font2)
     draw.text((1850,995), f"{data['product_discount3']}{('%')}", fill='black',anchor="mm", font=font2)

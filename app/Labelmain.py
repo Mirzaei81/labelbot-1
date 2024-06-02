@@ -17,12 +17,15 @@ def main():
     resetdata()
 
 
-
-LabelInfo={
-    "name" :"",
-    "address" : "",
-    "phone" :"",
-    "Zip" : "",
+sample_data = {
+    "name":"",
+    "address": "",
+    "phone": "",
+    "Zip":"",
+    "seller_name":"امیرو اعظم",
+    "seller_address":"بوشهر خیابان باهنر نبش نیلوفر 3 واحد 4",
+    "seller_number": "09017730054",
+    "seller_postcode" : "159487263",
 }
 InvoiceInfo={
 
@@ -34,6 +37,7 @@ InvoiceInfo={
     'seller_name':"امیرو اعظم",
     "seller_address":"بوشهر خیابان باهن4",
     "seller_number": "09017730054",
+    "seller_zip":"",
     "invoice_num" : "123456",
     "product_name1":"",
     "product_name2":"",
@@ -69,6 +73,7 @@ def resetdata():
     'seller_name':"امیرو اعظم",
     "seller_address":"بوشهر خیابان باهن4",
     "seller_number": "09017730054",
+    "seller_zip":"",
     "invoice_num" : "123456",
     "product_name1":"",
     "product_name2":"",
@@ -88,15 +93,19 @@ def resetdata():
     'qty4': 0,
 }
       LabelInfo={
-    "name" :"",
-    "address" : "",
-    "phone" :"",
-    "Zip" : "",
+    "name":"",
+    "address": "",
+    "phone": "",
+    "Zip":"",
+    "seller_name":"امیرو اعظم",
+    "seller_address":"بوشهر خیابان باهنر نبش نیلوفر 3 واحد 4",
+    "seller_number": "09017730054",
+    "seller_postcode" : "159487263",
         }
 
 def LabelMaker(message):
         
-        LabelInfo.update({"address":message.text})
+        SetSellerInfo(message.from_user.username,LabelInfo)
         img=  Label_class.create_label(LabelInfo)
         img.save("texttest.Png")
         bot.send_photo(message.chat.id,open("texttest.Png","rb"))
@@ -104,30 +113,40 @@ def LabelMaker(message):
         Database.LoseCredits(message.from_user.username)
         resetdata()
 
+def AskCustomerInfoLabel(message):
+    bot.send_message(message.chat.id,"لطفا متن زیر را کپی کنید و اطلاعات مشتری را جایگذاری کنید")
+    bot.send_message(message.chat.id,"نام و نام خانوادگی :\nآدرس :\nشماره تماس :\nکدپستی :")
+    bot.register_next_step_handler(message,lambda m:SetCustomerInfoLabel(m))
 
-def AskName(message):
-        print(LabelInfo)
-        bot.send_message(message.chat.id,"لطفا نام گیرنده را بنویسید")
-        bot.register_next_step_handler(message,AskZip)
+def SetCustomerInfoLabel(message):
+    x=  message.text.splitlines()
+    y=[]
+    info=[]
+    for i in x:
+        for z in (i.split(":")):
+              y.append(z)
+    for i in range(1,8,2):
+        info.append(y[i].strip())
+    LabelInfo.update({"name":info[0]})
+    LabelInfo.update({"address":info[1]})
+    LabelInfo.update({"phone":info[2]})
+    LabelInfo.update({"Zip":info[3]})
+    print(info)
+    LabelMaker(message)
 
-def AskZip(message):
-        print(LabelInfo)
-        LabelInfo.update({"name": message.text})
-        bot.send_message(message.chat.id,"کد پستی وارد کن")
-        bot.register_next_step_handler(message,AskNumLabel)
 
-def AskNumLabel(message):
-        print(LabelInfo)
-        LabelInfo.update({"Zip": message.text})
-        bot.send_message(message.chat.id,"شماره تلفن بزن")
-        bot.register_next_step_handler(message,AskAdrs)    
 
-def AskAdrs(message):
-        print(LabelInfo)
-        LabelInfo.update({"phone": message.text})
-        bot.send_message(message.chat.id,"آدرستم بزن دیکه")
 
-        bot.register_next_step_handler(message,LabelMaker)
+
+
+
+def AskCustomerInfoInvoice(message):
+    
+    bot.send_message(message.chat.id,"لطفا متن زیر را کپی کنید و اطلاعات مشتری را جایگذاری کنید")
+    bot.send_message(message.chat.id,"نام و نام خانوادگی :\nآدرس :\nشماره تماس :")
+    bot.register_next_step_handler(message,lambda m:SetCustomerInfoInvoice(m))
+    bot.register_next_step_handler(message,lambda m:AskItem(m))
+
 
 
 def AskItem(message):
@@ -146,18 +165,27 @@ def SetQuant(message):
         
         BaseName(message,order)
 
+
+
 def BaseName(message,order):
         global itemQuant
         print("order:"+str(order))
         print("message.text:"+message.text)
         print(InvoiceInfo)
         if(itemQuant>0):
-            bot.send_message(message.chat.id,str(order)+"-اسم محصولتان را بنویسید")
-
-            bot.register_next_step_handler(message,lambda m: AskPrice(m,order))
+            AskProductName(message)
         else:
+            SetSellerInfo(message.from_user.username,InvoiceInfo)
             PrintFunc(message)
-          
+
+
+
+
+def AskProductName(message):
+    bot.send_message(message.chat.id,str(order)+"-اسم محصولتان را بنویسید")
+    bot.register_next_step_handler(message,lambda m: AskPrice(m,order))
+
+
 def AskPrice(message,order):
         Prodname=message.text
         InvoiceInfo.update({"product_name"+str(order):Prodname})
@@ -176,7 +204,6 @@ def SetNum(message,order):
         InvoiceInfo.update({"qty"+str(order):int(message.text)})
         itemQuant-=1
         SetQuant(message)
-        
         print(InvoiceInfo)
         
 def PrintFunc(message):
@@ -187,27 +214,64 @@ def PrintFunc(message):
         print(InvoiceInfo)
         Database.LoseCredits(message.from_user.username)
         resetdata()
-def AskInfo(message):
-    bot.send_message(message.chat.id,"لطفا متن زیر را کپی کنید و اطلاعات خودرا جایگذاری کنید")
-    bot.send_message(message.chat.id,"نام و نام خانوادگی :\nآدرس فروشگاه :\nشماره تماس :")
-    bot.register_next_step_handler(message,lambda m:SetInfo(m))
 
-def SetInfo(message):
+
+
+
+
+
+
+
+#get and set User&Customer info
+
+def AskUserInfo(message):
+    bot.send_message(message.chat.id,"لطفا متن زیر را کپی کنید و اطلاعات خودرا جایگذاری کنید")
+    bot.send_message(message.chat.id,"نام و نام خانوادگی :\nآدرس فروشگاه :\nشماره تماس :\nکدپستی :")
+    bot.register_next_step_handler(message,lambda m:UpdateUserInfo(m))
+
+def UpdateUserInfo(message):
     x=  message.text.splitlines()
     y=[]
     info=[]
     for i in x:
         for z in (i.split(":")):
               y.append(z)
-
-    for i in range(1,6,2):
-          print(i)
-          info.append(y[i].strip())
-
+    for i in range(1,8,2):
+        info.append(y[i].strip())
     print(info)
     x=Database.UpdateShopInfo(message.from_user.username,info)
     if(x):
         bot.send_message(message.chat.id,"اطلاعات با موفقیت آپدیت شد!")
+
+def SetCustomerInfoInvoice(message):
+    x=  message.text.splitlines()
+    y=[]
+    info=[]
+    for i in x:
+        for z in (i.split(":")):
+              y.append(z)
+    for i in range(1,6,2):
+        info.append(y[i].strip())
+    InvoiceInfo.update({"name":info[0]})
+    InvoiceInfo.update({"address":info[1]})
+    InvoiceInfo.update({"phone":info[2]})
+    
+
+
+def SetSellerInfo(username,VarInfo):
+
+    info = Database.GetInfo(username)
+    
+    VarInfo.update({"seller_name":info[0]})
+    VarInfo.update({"seller_address":info[1]})
+    VarInfo.update({"seller_number":info[2]})
+    if(VarInfo==LabelInfo):      
+        VarInfo.update({"seller_zip":info[3]})
+    
+
+#####
+
+
 
 
 def ChooseMarkup():
@@ -220,6 +284,7 @@ def ChooseMarkup():
 def CreateNewUser(UserName,message):
       bot.send_message(message.chat.id,"سلام عزیز به ربات خوش اومدی\n بنظر میاد که بار اولته که با ربات ما کار میکنی \n برای شروع کار بهت 10 تا شارژ برای کار با ربات تعلق میگیره!")
       x=Database.CreateUser(UserName)
+      
       if(x==True):
             Startcommand(message)
 
@@ -244,13 +309,15 @@ def Startcommand(message):
 @bot.callback_query_handler(func=lambda pol:True)
 def callbackquery(pol):
     if(pol.data =="Label"):
-        AskName(pol.message)
+        resetdata()
+        AskCustomerInfoLabel(pol.message)
     if(pol.data=="Invoice"):
-        AskItem(pol.message)
+        resetdata()
+        AskCustomerInfoInvoice(pol.message)
     if(pol.data=="Charge"):
         print("Charge")
     if(pol.data=="Info"):
-        AskInfo(pol.message)
+        AskUserInfo(pol.message)
         
 
 

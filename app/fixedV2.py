@@ -15,6 +15,9 @@ def convert(text):
     print("it works??")
     return converted
 
+def format_number(number):
+    formatted_number = f"{number:,}"
+    return formatted_number
 
 global totalprices
 global dscountedtprice
@@ -47,8 +50,9 @@ sample_data = {
     'qty3': 2,
     'qty4': 10,
     
-} 
+}
 '''
+
 def calc_disc(data):
     data.update({"date":shamsi_date()})
     quantities = {
@@ -147,25 +151,21 @@ def create_Invoice(data):
     draw.text((1850,900), f"{data['product_discount2']}{('%')}", fill='black',anchor="mm", font=font2)
     draw.text((1850,995), f"{data['product_discount3']}{('%')}", fill='black',anchor="mm", font=font2)
     draw.text((1850,1080), f"{data['product_discount4']}{('%')}", fill='black',anchor="mm", font=font2)
-    draw.text((1500,805), f"{data['product_price1']}{('T')}", fill='black',anchor="mm", font=font2)
-    draw.text((1500,900), f"{data['product_price2']}{('T')}", fill='black',anchor="mm", font=font2)
-    draw.text((1500,995), f"{data['product_price3']}{('T')}", fill='black',anchor="mm", font=font2)
-    draw.text((1500,1080), f"{data['product_price4']}{('T')}", fill='black',anchor="mm", font=font2)
+    draw.text((1500,805), f"{format_number(data['product_price1'])}{('T')}", fill='black',anchor="mm", font=font2)
+    draw.text((1500,900), f"{format_number(data['product_price2'])}{('T')}", fill='black',anchor="mm", font=font2)
+    draw.text((1500,995), f"{format_number(data['product_price3'])}{('T')}", fill='black',anchor="mm", font=font2)
+    draw.text((1500,1080), f"{format_number(data['product_price4'])}{('T')}", fill='black',anchor="mm", font=font2)
     draw.text((1170,805), f"{data['qty1']}", fill='black',anchor="mm", font=font2)
     draw.text((1170,900), f"{data['qty2']}", fill='black',anchor="mm", font=font2)
     draw.text((1170,995), f"{data['qty3']}", fill='black',anchor="mm", font=font2)
     draw.text((1170,1080), f"{data['qty4']}", fill='black',anchor="mm", font=font2)
-    draw.text((2180,1225), f"{profit}{('T')}", fill='black',anchor="mm", font=font2)
-    draw.text((2180,1305), f"{total_dis}{('T')}", fill='black',anchor="mm", font=font2)
-    draw.text((2180,800), f"{dtprice1}{('T')}", fill='black',anchor="mm", font=font2)
-    draw.text((2180,900), f"{dtprice2}{('T')}", fill='black',anchor="mm", font=font2)
-    draw.text((2180,990), f"{dtprice3}{('T')}", fill='black',anchor="mm", font=font2)
-    draw.text((2180,1080), f"{dtprice4}{('T')}", fill='black',anchor="mm", font=font2)
+    draw.text((2180,1225), f"{format_number(profit)}{('T')}", fill='black',anchor="mm", font=font2)
+    draw.text((2180,1305), f"{format_number(total_dis)}{('T')}", fill='black',anchor="mm", font=font2)
+    draw.text((2180,800), f"{format_number(dtprice1)}{('T')}", fill='black',anchor="mm", font=font2)
+    draw.text((2180,900), f"{format_number(dtprice2)}{('T')}", fill='black',anchor="mm", font=font2)
+    draw.text((2180,990), f"{format_number(dtprice3)}{('T')}", fill='black',anchor="mm", font=font2)
+    draw.text((2180,1080), f"{format_number(dtprice4)}{('T')}", fill='black',anchor="mm", font=font2)
     
-    
-   
-   
-
     return img    
 
 def main():
@@ -174,6 +174,6 @@ def main():
   #label_image = create_Invoice()
   #label_image.show("invoice3.png")
 
- 
+  
 if __name__=="__main__":
     main()

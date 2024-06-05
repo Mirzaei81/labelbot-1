@@ -149,7 +149,7 @@ def AskCustomerInfoInvoice(message):
 
 
 def Askproduct(message):
-    bot.send_message(message.chat.id,"لطفا اطلاعات محصول خود را به شکل زیر بنویسید\n\n محصول / قیمت / تخفیف / تعداد \n")
+    bot.send_message(message.chat.id,"لطفا اطلاعات محصول خود را به شکل زیر بنویسید\n\n محصول  قیمت  تخفیف  تعداد \n")
     bot.register_next_step_handler(message,lambda m:SetProducts(m))
 
 def SetProducts(message):

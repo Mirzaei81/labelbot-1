@@ -145,10 +145,32 @@ def AskCustomerInfoInvoice(message):
     bot.send_message(message.chat.id,"لطفا متن زیر را کپی کنید و اطلاعات مشتری را جایگذاری کنید")
     bot.send_message(message.chat.id,"نام و نام خانوادگی :\nآدرس :\nشماره تماس :")
     bot.register_next_step_handler(message,lambda m:SetCustomerInfoInvoice(m))
-    bot.register_next_step_handler(message,lambda m:AskItem(m))
+    bot.register_next_step_handler(message,lambda m:Askproduct(m))
 
 
+def Askproduct(message):
+    bot.send_message(message.chat.id,"لطفا اطلاعات محصول خود را به شکل زیر بنویسید\n\n محصول  قیمت  تخفیف  تعداد \n")
+    bot.register_next_step_handler(message,lambda m:SetProducts(m))
 
+def SetProducts(message):
+    x=message.text.splitlines()
+    y=[]
+    print(len(x))
+    for i in range(len(x)):
+        print(i)
+        print(x[i])
+        y.append(x[i].rsplit(" ",3))
+        y=y[0]
+        print("y=",y)
+        InvoiceInfo.update({"product_name"+str(i+1):y[0]})
+        InvoiceInfo.update({"product_price"+str(i+1):int(y[1])})
+        InvoiceInfo.update({"product_discount"+str(i+1):int(y[2])})
+        InvoiceInfo.update({"qty"+str(i+1):int(y[3])})
+        y.clear()
+    SetSellerInfo(message.from_user.username,InvoiceInfo)
+    PrintFunc(message)
+
+'''
 def AskItem(message):
         bot.send_message(message.chat.id,"چند نوع محصول داریم؟")
         bot.register_next_step_handler(message,SetQuant)
@@ -205,7 +227,9 @@ def SetNum(message,order):
         itemQuant-=1
         SetQuant(message)
         print(InvoiceInfo)
-        
+'''        
+
+
 def PrintFunc(message):
         img=Invoice_class.calc_disc(InvoiceInfo)
         img.save("InvoiceTest.Png")
@@ -294,6 +318,7 @@ def CreateNewUser(UserName,message):
 def Startcommand(message):
     resetdata()
 
+    x=bot.send_message(message.chat.id,"در حال پردازش...").message_id
     usercheck=Database.CheckUser(message.from_user.username)
     print(usercheck)
     if(usercheck==False):    
@@ -301,6 +326,7 @@ def Startcommand(message):
 
     else:
         User_Credits=Database.GetCredits(message.from_user.username)
+        bot.delete_message(message.chat.id,x)
         bot.send_message(message.chat.id,"خدمات مورد نظر خود را انتخاب کنید \n\n شارژ باقی مانده = {0} ".format(User_Credits),reply_markup=ChooseMarkup())
 
 

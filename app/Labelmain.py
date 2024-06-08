@@ -149,7 +149,7 @@ def AskCustomerInfoInvoice(message):
 
 
 def Askproduct(message):
-    bot.send_message(message.chat.id,"لطفا اطلاعات محصول خود را به شکل زیر بنویسید\n\n محصول  قیمت  تخفیف  تعداد \n")
+    bot.send_message(message.chat.id,"لطفا اطلاعات محصول خود را به شکل زیر بنویسید\n\n محصول  قیمت  تخفیف  تعداد \nمثال : لبتاب سامسونگ  2 10 1000000")
     bot.register_next_step_handler(message,lambda m:SetProducts(m))
 
 def SetProducts(message):
@@ -249,7 +249,7 @@ def PrintFunc(message):
 #get and set User&Customer info
 
 def AskUserInfo(message):
-    bot.send_message(message.chat.id,"لطفا متن زیر را کپی کنید و اطلاعات خودرا جایگذاری کنید")
+    bot.send_message(message.chat.id,"لطفا متن زیر را کپی کنید و اطلاعات خودرا جلوی هر عبارت بنویسید")
     bot.send_message(message.chat.id,"نام و نام خانوادگی :\nآدرس فروشگاه :\nشماره تماس :\nکدپستی :")
     bot.register_next_step_handler(message,lambda m:UpdateUserInfo(m))
 
@@ -293,6 +293,14 @@ def SetSellerInfo(username,VarInfo):
         VarInfo.update({"seller_zip":info[3]})
     
 
+
+
+
+
+def Charge(message):
+     bot.send_message(message.chat.id,"لطفا برای شارژ حساب خود به پشتیبانی پیام دهید\n@Arko_ai")
+     
+
 #####
 
 
@@ -301,12 +309,12 @@ def SetSellerInfo(username,VarInfo):
 def ChooseMarkup():
     markup=InlineKeyboardMarkup()
     markup.row_width=2
-    markup.add(InlineKeyboardButton("لیبل پستی",callback_data="Label"),InlineKeyboardButton("فاکتور فروش",callback_data="Invoice"),InlineKeyboardButton("شارژ اشتراک",callback_data="Charge"),InlineKeyboardButton("تغییر اطلاعات",callback_data="Info"))
+    markup.add(InlineKeyboardButton("لیبل پستی📫",callback_data="Label"),InlineKeyboardButton("فاکتور فروش📝",callback_data="Invoice"),InlineKeyboardButton("شارژ اشتراک🔋",callback_data="Charge"),InlineKeyboardButton("اطلاعات فروشگاه✏️",callback_data="Info"))
     return markup
 
 
 def CreateNewUser(UserName,message):
-      bot.send_message(message.chat.id,"سلام عزیز به ربات خوش اومدی\n بنظر میاد که بار اولته که با ربات ما کار میکنی \n برای شروع کار بهت 10 تا شارژ برای کار با ربات تعلق میگیره!")
+      bot.send_message(message.chat.id,"سلام عزیز به ربات خوش اومدی\n بنظر میاد که بار اولته که با ربات ما کار میکنی \n برای شروع کار بهت 10 تا شارژ برای کار با ربات تعلق میگیره!\n یادت نره که قبل از شروع اطلاعات فروشگاهتو داخل پنل اضافه کنی!")
       x=Database.CreateUser(UserName)
       
       if(x==True):
@@ -341,7 +349,7 @@ def callbackquery(pol):
         resetdata()
         AskCustomerInfoInvoice(pol.message)
     if(pol.data=="Charge"):
-        print("Charge")
+        Charge(pol.message)
     if(pol.data=="Info"):
         AskUserInfo(pol.message)
         

@@ -114,7 +114,7 @@ def LabelMaker(message):
         resetdata()
 
 def AskCustomerInfoLabel(message):
-    bot.send_message(message.chat.id,"لطفا متن زیر را کپی کنید و اطلاعات مشتری را جایگذاری کنید")
+    bot.send_message(message.chat.id,"لطفا متن زیر را کپی کنید و اطلاعات مشتری را جلوی هر عبارت بنویسید")
     bot.send_message(message.chat.id,"نام و نام خانوادگی :\nآدرس :\nشماره تماس :\nکدپستی :")
     bot.register_next_step_handler(message,lambda m:SetCustomerInfoLabel(m))
 
@@ -142,14 +142,14 @@ def SetCustomerInfoLabel(message):
 
 def AskCustomerInfoInvoice(message):
     
-    bot.send_message(message.chat.id,"لطفا متن زیر را کپی کنید و اطلاعات مشتری را جایگذاری کنید")
-    bot.send_message(message.chat.id,"نام و نام خانوادگی :\nآدرس :\nشماره تماس :")
+    bot.send_message(message.chat.id,"لطفا متن زیر را کپی کنید و اطلاعات مشتری را جلوی هر عبارت بنویسید")
+    bot.send_message(message.chat.id,"نام و نام خانوادگی :\nآدرس :\nشماره تماس :\n")
     bot.register_next_step_handler(message,lambda m:SetCustomerInfoInvoice(m))
     bot.register_next_step_handler(message,lambda m:Askproduct(m))
 
 
 def Askproduct(message):
-    bot.send_message(message.chat.id,"لطفا اطلاعات محصول خود را به شکل زیر بنویسید\n\n محصول  قیمت  تخفیف  تعداد \nمثال : لبتاب سامسونگ  2 10 1000000")
+    bot.send_message(message.chat.id,"لطفا اطلاعات محصول خود را به شکل زیر بنویسید\n\n محصول  قیمت  تخفیف  تعداد \nمثال : لبتاب سامسونگ  2 10 1000000\n")
     bot.register_next_step_handler(message,lambda m:SetProducts(m))
 
 def SetProducts(message):

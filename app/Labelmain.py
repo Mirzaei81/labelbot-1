@@ -4,7 +4,7 @@ import lilbaby
 import fixedV2
 import Database
 from PIL import Image, ImageFont, ImageDraw
-bot=telebot.TeleBot("6972519738:AAG6zuY4X5fLJ4yYVpiNieWW_-45wgdT9qI",parse_mode=None)
+bot=telebot.TeleBot("7392771282:AAHT4Dt0A5fpZprtCo2UI3x-XxSSvPsDBCI",parse_mode=None)
 Label_class=lilbaby
 Invoice_class=fixedV2
 import mysql.connector

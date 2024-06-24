@@ -123,9 +123,11 @@ def create_Invoice(data):
     dtprice2 = int(dscountedtprice['dtprice2'])
     dtprice3 = int(dscountedtprice['dtprice3'])
     dtprice4 = int(dscountedtprice['dtprice4'])
-    img = Image.open("5.png")
+    img = Image.open("invoice/5.png")
     draw = ImageDraw.Draw(img)
-    # Load a font (you can specify your own font file)
+    logo = Image.open("D:\label maker/vertical version\logo.png")   # Replace with your logo file path
+    logo_resized = logo.resize((700, 700))
+    img.paste(logo_resized, (75, -15), logo_resized)
     font = ImageFont.truetype("IranianSansBold.ttf", 45)
     font2 = ImageFont.truetype("arial.ttf", 47)
     

@@ -12,4 +12,7 @@ RUN nohup python SystemApi.py > nohup.out 2>&1 &
 
 COPY . .
 
-CMD [ "python","-u","Labelmain.py"]
+EXPOSE 5000
+
+
+CMD ["nohup", "python", "SystemApi.py", "> nohup.out 2>&1"]

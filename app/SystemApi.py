@@ -8,5 +8,6 @@ def index():
     # اینجا هم لینک اون ایمیج رو قرار میدی، میتونه بصورت متغیر هم باشه
     return "https://wallpapercave.com/wp/wp14144128.jpg"
 
-if __name__ == '__main__':
-    app.run()
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)

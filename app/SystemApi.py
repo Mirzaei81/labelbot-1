@@ -1,14 +1,12 @@
-import requests
 from flask import Flask
-from flask_restful import Api, Resource
 
-app=Flask(__name__)
-api=Api(app)
+app = Flask(__name__)
 
-class testing(Resource):
-    def get(self):
-        return {"data":"testing!!!"}
+# وقتی اینجوری دامین رو ست کنی، اگه واسه دامین اصلی ریکوست بفرستی، میره تو این تابع
+@app.route('/')
+def index():
+    # اینجا هم لینک اون ایمیج رو قرار میدی، میتونه بصورت متغیر هم باشه
+    return "https://wallpapercave.com/wp/wp14144128.jpg"
 
-api.add_resource(testing,"/test")
-if __name__=="__main__":
-    app.run(debug=True)
+if __name__ == '__main__':
+    app.run()

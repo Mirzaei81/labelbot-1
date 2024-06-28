@@ -5,9 +5,9 @@ WORKDIR /app
 
 COPY requirements.txt ./
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt & nohup python SystemApi.py > nohup.out 2>&1
 
 
 COPY . .
 
-CMD [ "python","-u","Labelmain.py"] 
+CMD [ "python","-u","Labelmain.py"]

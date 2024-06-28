@@ -1,5 +1,5 @@
 import requests
 
 
-x=requests.get("http://127.0.0.1:5000/test")
-print(x.json())
+x=requests.get("https://Fit50.ir/flaskapp")
+print(x._content)

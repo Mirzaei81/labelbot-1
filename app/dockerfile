@@ -12,7 +12,7 @@ RUN nohup python SystemApi.py > nohup.out 2>&1 &
 
 COPY . .
 
-EXPOSE 5000
+EXPOSE 31706
 
 
 CMD ["nohup", "python", "SystemApi.py", "> nohup.out 2>&1"]

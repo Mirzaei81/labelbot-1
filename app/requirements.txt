@@ -5,4 +5,3 @@ persiantools
 python-bidi
 arabic-reshaper
 Flask
-Flask-RESTful

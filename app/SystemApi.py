@@ -1,7 +1,7 @@
 from flask import Flask
 
 app = Flask(__name__)
-
+print("app is working")
 # وقتی اینجوری دامین رو ست کنی، اگه واسه دامین اصلی ریکوست بفرستی، میره تو این تابع
 @app.route('/')
 def index():

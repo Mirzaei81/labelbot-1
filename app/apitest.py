@@ -1,5 +1,5 @@
 import requests
 
 
-x=requests.get("https://Fit50.ir/flaskapp")
+x=requests.get("https://test.arkobot.ir")
 print(x._content)

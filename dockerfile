@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["nohup", "python","-m","flask","--app","SystemApi","run"]
+CMD nohup python -m flask --app SystemApi run --host 0.0.0.0 --port 5000
